@@ -1,0 +1,64 @@
+[root@localhost ~]# sestatus 
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Memory protection checking:     actual (secure)
+Max kernel policy version:      33
+
+
+logbox@dell:~$ ansible-playbook /home/logbox/corsair/virtuals/ansible/git/ansible/testTask.yml --syntax-check
+
+playbook: /home/logbox/corsair/virtuals/ansible/git/ansible/testTask.yml
+logbox@dell:~$ ansible-playbook /home/logbox/corsair/virtuals/ansible/git/ansible/testTask.yml 
+
+PLAY [frontend] ***************************************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************************************
+ok: [c8.local]
+
+TASK [Отключаем SELinux] ******************************************************************************************************************
+[WARNING]: SELinux state change will take effect next reboot
+ok: [c8.local]
+
+PLAY [Перезагрузка серверов] **************************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************************************
+ok: [c8.local]
+
+TASK [Перезагрузка хостов и ожидание их перезагрузки] *************************************************************************************
+changed: [c8.local]
+
+PLAY RECAP ********************************************************************************************************************************
+c8.local                   : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+logbox@dell:~$ ssh root@c8
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Thu Aug 12 08:21:17 2021 from 172.21.0.1
+[root@localhost ~]# sestatus 
+SELinux status:                 disabled
+
+logbox@dell:~$ ansible-playbook /home/logbox/corsair/virtuals/ansible/git/ansible/testTask.yml 
+
+PLAY [frontend] ***************************************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************************************
+ok: [c8.local]
+
+TASK [Отключаем SELinux] ******************************************************************************************************************
+ok: [c8.local]
+
+TASK [Install Nginx Web Server on RedHat Family] ******************************************************************************************
+ok: [c8.local]
+
+PLAY RECAP ********************************************************************************************************************************
+c8.local                   : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+
